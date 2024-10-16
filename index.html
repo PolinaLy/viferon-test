@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Виферон</title>
+    <link rel="preload" href="assets/fonts/Inter/Inter-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="assets/fonts/Helvetica/HelveticaNeueCyr-Black.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="assets/fonts/Helvetica/HelveticaNeueCyr-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" as="image" href="./assets/img/preview.png">
+    <link rel="preload" as="image" href="./assets/img/q1_image.png">
+    <link rel="preload" as="image" href="./assets/img/q2_image.png">
+    <link rel="preload" as="image" href="./assets/img/q3_image.png">
+    <link rel="preload" as="image" href="./assets/img/q4_image.png">
+    <link rel="preload" as="image" href="./assets/img/q5_image.png">
+    <link rel="preload" as="image" href="./assets/img/q6_image.png">
+    <link rel="preload" as="image" href="./assets/img/q7_image.png">
+    <link rel="preload" as="image" href="./assets/img/q8_image.png">
+
+
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css?v=99">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<style>
+@font-face {
+    font-family: "Helvetica Bold";
+    src: url("assets/fonts/Helvetica/HelveticaNeueCyr-Bold.woff2") format("woff2"),
+    url("assets/fonts/Helvetica/HelveticaNeueCyr-Bold.woff") format("woff");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Helvetica Black";
+    src: url("./assets/fonts/Helvetica/HelveticaNeueCyr-Black.woff2") format("woff2"),
+    url("./assets/fonts/Helvetica/HelveticaNeueCyr-Black.woff") format("woff");
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Inter";
+    src: url("./assets/fonts/Inter/Inter-Regular.woff2") format("woff2"),
+    url("./assets/fonts/Inter/Inter-Regular.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+</style>
+</head>
+<body>
+    <img class="img-stars" src="./assets/img/stars.svg"  alt="">
+    <header class="header">
+        <img src="./assets/img/header1.svg" width="1440" height="124" alt="">
+    </header>
+
+    <div class="shape1 lg:block finish-disabled3 select-none pointer-events-none absolute z-[1]">
+        <img class="shape-min floating-type1 object-contain" decoding="async" src="assets/img/shape1.svg" alt="">
+    </div>
+    
+    <div class="shape2 lg:block select-none pointer-events-none absolute z-[1]">
+        <img class="shape-min floating-type2 object-contain" decoding="async" src="assets/img/shape2.svg" alt="">
+    </div>
+    
+    <div class="shape3 lg:block select-none pointer-events-none absolute z-[1]">
+        <img class="shape-min floating-type2 object-contain" decoding="async" src="assets/img/shape3.svg" alt="">
+    </div>
+    <div class="shape4 lg:block select-none pointer-events-none absolute z-[1]">
+        <img class="shape-big floating-type1 object-contain" decoding="async" src="assets/img/shape4.svg" alt="">
+    </div>
+    
+    <div id="app" class="min-h-screen bg-class relative main">
+    <section v-if="preview" class="min-h-screen relative">
+        <div class="pseudo main__content flex flex-col min-h-screen lg:flex-row w-full sm:max-w-3xl lg:w-full lg:max-w-none px-3 xxl:max-w-[1330px] lg:px-[30px] items-center mx-auto h-full justify-between">
+            <div class="main-content-text mt-16 sm:mt-32 lg:mt-0 lg:max-w-[450px] xl:max-w-[560px]">
+                <h2 class="main-title text-2xl sm:text-3xl lg:leading-none lg:text-[6.3vh] font-bold">Квест <br>«Один день из жизни <span>врача»</span></h2>
+                <p class="sm:mt-5 lg:mt-[2.8vh] text-xl lg:leading-none lg:text-[2.5vh] main-text">Пройдите квест и получите награду.</p>
+                <button @click="startQuest" class="mt-8 lg:mt-[7vh] button button--primary">Начать</button>
+            </div>
+            <div class="wrapper-img-main mb-14 lg:mb-0 lg:ml-auto">
+                <img class="image-transform transition-transform object-contain img-main" decoding="async" src="./assets/img/preview.png" alt="">
+            </div>
+        </div>
+    </section>
+
+    <section v-if="start_quest" class="min-h-screen relative z-10">
+        <div class="pseudo main__content main__content--q qwis flex flex-col min-h-screen lg:flex-row max-w-3xl px-3 lg:max-w-[1330px] lg:px-[30px] mx-auto h-full items-center justify-between">
+            <div class="question-block mt-16 sm:mt-32 lg:mt-0 lg:max-w-[450px]">
+                <div v-if="question.time" class="time text-2xl lg:text-[2.6vh] lg:leading-none uppercase">{{question.time}}</div>
+                <p class="question-text mt-7 lg:mt-[2.8vh] text-lg lg:text-[2vh] lg:leading-tight">{{question.text}}</p>
+                <div v-if="question.text_action" class="text-action mt-5 lg:mt-[2vh] font-bold text-lg lg:text-[2vh] lg:leading-tight">{{question.text_action}}</div>
+                <div :class="`questionblock-${question.id}`" :key="`${question.id}`" class="answers-block mt-7 Wspace-y-4 lg:space-y-[2vh]">
+                    <div v-for="answer in question.answers" :key="answer.id" :class="`answer-${answer.id}`" class="button-block">
+                        <button @click="answerQuestion(answer.id)" class="!px-4 !py-4 lg:!px-[3vh] lg:!py-[1.8vh] text-base lg:text-[2vh] button button--outline"><span></span><p v-html="answer.text"></p></button>
+                    </div>
+                </div>
+            </div>
+            <div class="wrapper-img-q mb-14 mt-8 lg:mt-0 lg:mb-0 lg:ml-auto">
+                <img class="image-transform transition-transform object-contain img-main" :src="question.image" alt="">
+            </div>
+            <div v-if="question.footnote" class="question-footnote absolute" >
+                <p class="footnote-text text-[9px] sm:text-xs lg:text-[1.5vh]" v-html="question.footnote"></p>
+            </div>
+        </div>
+    </section>
+
+
+    <div id="modal-msg" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <div v-if="currentAnswer.imageback" class="block-imageback">
+                <img :src="currentAnswer.imageback" class="imageback max-h-56 sm:max-h-full object-contain w-full" alt="">
+
+                <div class="content flex flex-col items-center">
+                    <div v-if="currentAnswer.image" class="block-image mb-7">
+                        <img :src="currentAnswer.image" class="max-h-56 sm:max-h-full object-contain w-full md:h-[30vh]" alt="">
+                    </div>
+                    <div v-if="currentAnswer.result" class="text-content text-lg lg:text-[3.2vh] font-medium  text-dark  text-center lg:max-w-lg" v-html="currentAnswer.result"></div>
+                    <div v-if="currentAnswer.result2" :class="{ 'mt-8 mb-8': !currentAnswer.image }" class="text-content space-y-3 text-sm lg:text-[2.6vh] text-dark" v-html="currentAnswer.result2"></div>
+                </div>
+                <div class="button-next-wrapper text-center">
+                    <button @click="nextQuestion" class="button--next mt-7 button text-lg">Далее</button>
+                </div>
+            </div>   
+        </div>
+        <div v-if="currentAnswer.bookmark" class=" px-4 bottom-footnote z-50  absolute w-full" >
+            <p class="footnote-text smallh:!text-[5px] text-[9px] sm:text-xs lg:text-[1.5vh] max-w-2xl xxl:max-w-7xl mx-auto" v-html="currentAnswer.bookmark"></p>
+        </div>
+      </div>
+</div>
+
+<script src="assets/js/vue.min.js"></script>
+<script src="assets/js/main.js?v=90"></script>
+</body>
+
+</html>
+
